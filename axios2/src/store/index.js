@@ -12,7 +12,11 @@ export default new vuex.Store({
     },
     actions: {
         setdata({ commit }) {
-            axios.get('http://localhost:8081/static/data.json').then((data) => {
+            axios({
+                methods: "post", //GET POST request header delete options put patch
+                url: "../../static/data.json",
+                headers: { "Content-Type": 'application/x-www-form-urlencoded; charset=UTF-8' }
+            }).then((data) => {
                 commit('setdata', data.data);
             })
         }
@@ -21,6 +25,7 @@ export default new vuex.Store({
 
         setdata(state, data) {
             state.person = data.person2[1];
+            // console.log(data);
         }
     }
 })
