@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+// 异步
+// setTimeout(() => {
+//      console.log(1);
+//  }, 1000);
+//  console.log(2);
+// function dome(){
+//     return new Promise((res,rej)=>{
+//         setTimeout(() => {
+//             console.log(2);
+            
+//  rej(new Error('Could not load image at '));
+//         }, 1000,'hahah');
+//     })
+// }
+// dome().then((value)=>{
+//     console.log(1);
+    
+// }).catch((value)=>{
+//     console.log(value);
+// })
+// console.log(3);
+
+function p(){
+    return new Promise((resolve,reject)=>{
+        //这里执行一些代码
+        // 成功返回
+        resolve();
+        //失败返回
+        reject();
+    })
+}
+p().then(()=>{
+    //成功的函数
+}).catch(()=>{
+    //失败的函数
+})
+
+</script>

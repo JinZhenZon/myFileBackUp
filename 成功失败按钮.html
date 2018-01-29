@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #box{
+            position:absolute;
+            width:100%;
+            z-index: 999;
+            background:rgba(30,30,30,0.5);
+            height:100%
+        }
+        .hide{
+            display:none;
+        }
+        .show{
+            display: block
+        }
+        body{
+            height:100%;
+            width:100%;
+
+        }
+        *{
+            margin:0;padding:0;
+        }
+        .inner{
+            position:absolute;
+            height:100%;
+            width:100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="hide" id = "box">
+
+    </div>
+</body>
+<script type="text/javascript">
+    function resultToggle(t){
+         document.getElementById("box").innerHTML = "";
+         document.getElementById('box').className = "show";
+          let img = document.createElement("div");
+          img.className = "inner"
+        if(t == "ok"){
+          
+            
+            img.style.backgroundImage ="url(http://a.cphotos.bdimg.com/timg?image&quality=100&size=b4000_4000&sec=1516332920&di=e823df56ed02493ed661fe13894c28bc&src=http://img1.gamedog.cn/2013/09/11/54-130911095Q10-51.jpg)";
+           
+        }else if(t=="error"){
+             img.style.backgroundImage = "url(http://b.hiphotos.baidu.com/exp/w=500/sign=e230d6e60b23dd542173a768e108b3df/4610b912c8fcc3ceeade63b19045d688d43f2011.jpg)";
+        }
+        
+        img.style.backgroundPosition = "center center";
+        document.getElementById('box').appendChild(img);
+    }
+
+    resultToggle('error');
+</script>
+</html>

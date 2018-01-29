@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>雪花下落</title>
+    <style>
+        .snow {
+            position : absolute;
+        }
+        #view{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1000px;
+            background: #333;
+
+        }
+        *{margin:0;padding:0;}
+        body{position:relative;overflow: hidden}
+        .bower{
+            position: absolute;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<script type="text/javascript">
+    //    计数器
+    var i = 0;
+    //    存放timer
+    var timer = [];
+    //    存放div
+    var divBox = [];
+    //    判断是暂停还是继续
+    var parse = true;
+    //   判断暂停时候是向下还是向上
+    var position = 'down';
+    //    雪花生成
+    function draw() {
+ 
+        var v = i;
+        i = i + 1;
+        var speed = 0;
+        var speedY = document.body.clientWidth / 2 - 15;
+        var div = document.createElement('div');
+
+        div.className = "bower";
+
+        // div.style.left = Math.floor(Math.random()*100)+"%";
+
+        div.style.top = '-50px';
+
+        var img = document.createElement("img");
+
+        img.src = "./1.png";
+
+        div.style.left = speedY + 'px';
+        // 修改图片的class
+        img.className = "imgStyle"
+
+        var span = document.createElement("p");
+
+        // 修改文字的class
+        span.className = "pStyle";
+
+        span.innerText = "文字";
+
+        div.appendChild(img);
+
+        div.appendChild(span);
+
+        document.getElementById("view").appendChild(div);
+        //            定义一个数组存放timer
+        timer[timer.length] = setInterval(function () {
+            if (speed < 10000) {
+                run(div, speed);
+                speed += 10;
+            }
+            else {
+                div.style.display = "none";
+            }
+            divBox[v] = div;
+        }, 100);
+    }
+    //    雪花动
+    function run(div, speed) {
+        div.style.top = speed + 'px';
+    }
+    function runTransverse(div, speedY) {
+        div.style.left = speedY + 'px';
+    }
+    function goDown() {
+        parse = false;
+        position = 'down';
+        
+        taggle();
+        draw();
+    }
+    function goUp() {
+        parse = false;
+        position = 'up';
+        taggle();
+    }
+    function goLeft() {
+        parse = false;
+        position = 'left';
+        taggle();
+    }
+    function goRight() {
+        document.getElementById('view').innerHtml = "";
+        parse = false;
+        position = 'right';
+        taggle();
+    }
+    function clickParse() {
+        taggle();
+    }
+    function taggle() {
+        if (parse == true) {  
+            timerClear();  document.getElementById('taggle').innerText = "继续"; 
+        } else {
+            positionTest();  document.getElementById('taggle').innerText = "暂停"; 
+        }
+        parse = !parse
+    }
+    function timerClear() {
+        timer.map(function (val) {
+            //            清除所有运动
+
+            clearInterval(val);
+        })
+
+    }
+    function positionTest() {
+
+        if (position === 'down') {
+            positionChange('down');
+        } else if (position === "up") {
+            positionChange('up');
+        } else if (position === "left") {
+            positionChange('left');
+        } else if (position === "right") {
+
+            positionChange('right');
+        }
+    }
+    function positionChange(position) {
+        timerClear();
+        var z = 0;
+        timer.map(function (val) {
+            if (z < divBox.length) {
+                var div = divBox[z];
+                var top = div.style.top;
+                var left = div.style.left;
+
+                //优化：出去之后会设置为隐藏 。解决这个问题。
+                div.style.display = "block";
+                //获取高度
+                var speed = parseFloat(top.substring(0, top.length - 2));
+                var speedY = parseFloat(left.substring(0, left.length - 2));
+
+                timer[z] = setInterval(function () {
+
+                    //               判断此时是上还是下，如果想代码精简就这么写，如果想运行优化酒拿到map外面
+                    if (position == "up") {
+                        if (speed > -50) {
+                            run(div, speed);
+                            speed -= 10;
+                        } else {
+                            div.style.display = "none";
+                        }
+                    } else if (position == "down") {
+                        if (speed < 10000) {
+                            run(div, speed);
+                            speed += 10;
+                        } else {
+                            div.style.display = "none";
+                        }
+                    } else if (position == "left") {
+                        if (speedY > -50) {
+                            runTransverse(div, speedY);
+                            speedY -= 10;
+                        }
+                    } else if (position === "right") {
+                        if (speedY < document.body.clientWidth) {
+                            runTransverse(div, speedY);
+
+                            speedY += 10;
+                        }
+                    }
+
+                    divBox[z] = div;
+                }, 100);
+                z++;
+            }
+        })
+
+
+
+
+    }
+</script>
+
+
+
+<body>
+    <div id = "view">
+        
+    </div>
+    <button style = "position:absolute;left:0px;" onclick = "return goDown()">
+        下落
+    </button>
+    <button style = "position:absolute;left:50px;" onclick = "return goUp()">上升</button>
+    <button style="position:absolute;left:100px;" onclick="return clickParse()" id="taggle">暂停</button> 
+       
+    <!-- <button style ="position:absolute;left:100px;" onclick = "return parse()" id = "taggle">暂停</button>      -->
+    <button style = "position:absolute;left:150px;" onclick = "return goLeft()">向左</button>
+<button style="position:absolute;left:200px;" onclick="return goRight()">向右</button>
+
+</body>
+
+</html>
